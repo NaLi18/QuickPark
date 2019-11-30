@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="../css/customerProfile.css">
+        <link rel="stylesheet" href="./message.css">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </head>
+    <body>
+    	<div id="messagegroup">
+ 		 <div class="list-group">
+ 		 	<a href="#" class="list-group-item">
+ 		 	<input type="checkbox">
+ 		 	<span class="glyphicon glyphicon-star-empty"></span>
+ 		 	<span class="senderName" style="display:inline-block">Ling Xiang</span>
+ 		 	<span class="subjectContent">Reservation Comfirm</span>
+ 		 	<span class="text-muted">-More content here</span>
+ 		 	<span class="times">12:10 AM</span>
+ 		 	</a>
+ 		 </div>
+ 		  <div class="list-group">
+ 		 	<a href="#" class="list-group-item">
+ 		 	<input type="checkbox">
+ 		 	<span class="space"></span>
+ 		 	<span class="senderName" style="display:inline-block">Kashi Xia</span>
+ 		 	
+ 		 	<span class="subjectContent">Reservation Comfirm</span>
+ 		 	<span class="text-muted">-More content here</span>
+ 		 	<span class="times">1:10 PM</span>
+ 		 	
+ 		 	</a>
+ 		 </div>
+        <button class="open-button" id= "sendButton" onclick="openForm()">New Message</button>
+        </div>
+        
+        <div class="form-popup" id="myForm">
+ 			<form action="/action_page.php" class="form-container">
+    			<label for="Reciper">Send To:</label>
+    			<input type="text" id="senderEmail" name="SenderEmail" placeholder="Email....">
+    			<label for="YourEmail">From:</label>
+    			<input type="text" id="email" name="yourEmail" placeholder="Your email..">
+
+    			<label for="subject">Subject</label>
+    			<input type="text" id="subject" name= "subject">
+    			
+    			<textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+    			<button type="submit" class="btn">Send</button>
+    			<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  			</form>	 
+		</div>
+        
+        <script>
+			function openForm() {
+		  		document.getElementById("myForm").style.display = "block";
+		  		document.getElementById("messagegroup").style.display = "none";
+			}
+
+			function closeForm() {
+  				document.getElementById("myForm").style.display = "none";
+  				document.getElementById("messagegroup").style.display = "block";
+			}
+		</script>
+        
+    </body>
+</html>

@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+       
+    </head>
+    <body>
+        <div>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <img src="./img/PGA logo.png"    class="logo">
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            <a class="nav-item nav-link active" href="/"><b>Home</b></a>
+                        </div>
+                    </div>
+                    <div class="dropdown dropdownAlignment">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Login / Signup 
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                              <a class="dropdown-item" href="./Admin.html">Admin</a>
+                              <a class="dropdown-item" href="./customerlogin.html">Customer</a>
+                              <a class="dropdown-item" href="./garagelogin.html">Garage Owner</a>
+                            </div>
+                          </div>
+            </nav>
+            </div>
+
+        <div id="container hpmain_background">
+                <img id="image" src="./img/homepage.png" alt="..." />
+                <div id="main_background_tint"></div>
+                <h1 class="text-center" id="banner"><span>Stop Worrying..Let's just park!!</span> </h1>
+              </div>
+        <style>
+                #container {
+                    height: 400px;
+                    width: 400px;
+                    position: relative;
+                }
+                .image{
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                }
+                #dropdownMenuButton{
+                    background-color: #3F88C5;
+                    color:#ffffff;
+
+                }
+                .logo{
+                    width: 75px;
+                    height:60px;
+                }
+                #banner{
+                    z-index: 100;
+                    position: absolute;
+                    color:#ffffff;
+                    font-size: 50px;
+                    font-weight: bold;
+                    left: 370px;
+                    top: 350px;
+                }
+                #main_background{
+                    position: absolute;
+                    top: 3.5rem;
+                    left: 0rem;
+                    width: 100%;
+                    height: calc(100% - 3.5rem);
+                    background-color: #ffffff;
+                }
+                #main_background img {
+                    width: 100%;
+                    height: 100%;
+                }
+                
+                #main_background_tint{
+                    position: absolute;
+                    top: 4rem;
+                    left: 0rem;
+                    width: 100%;
+                    height: 100%;
+                    /* height: calc(100% - 0rem); */
+                    background-color: rgba(0,0,0,0.9);
+                }
+            </style>
+    </body>
+</html>
