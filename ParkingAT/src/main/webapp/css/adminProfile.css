@@ -1,0 +1,30 @@
+.logo{
+    width: 75px;
+    height:60px;
+}
+.margin{
+    margin-left: 0;
+}
+.cover{
+    width:1400;
+    height:300;
+}
+.profilepic{
+    position: relative;  
+    top: -50px; 
+    width:180px;
+    height: 180px;
+}
+.btn-position{
+    position: relative;
+    top:-45px;
+    margin-left: 50px;
+}
+.profile-panel{
+    position: relative;
+    top:-140px;
+    margin-left: 280px;
+}
+.nav-item{
+    width:40%;
+}
