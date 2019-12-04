@@ -1,0 +1,31 @@
+.Ordertable, th,td{
+    border: 1px solid white;
+    border-collapse: collapse;
+    border-radius: 5px;
+}
+td{
+    background-color: rgba(64, 241, 158, 0.219);
+
+}
+th{
+    background-color: rgba(64, 241, 158, 0.514);
+    height: 45px;
+}
+.Ordertable{
+    margin: auto;
+    width: 80%;
+    background: #f3f3f3;
+}
+button{
+    float: right;
+    margin-right: 0%;
+    background-color: aquamarine;
+    width: 150px;
+    height:40px;
+    border-radius: 5px;
+    border: 1px;
+    margin-right: 80px;
+}
+button:first-of-type{
+    background-color: coral;
+}
