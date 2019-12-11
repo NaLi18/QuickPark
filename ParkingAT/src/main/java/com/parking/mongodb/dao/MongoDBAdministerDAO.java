@@ -12,7 +12,9 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.parking.entity.Administer;
+import com.parking.entity.GarageOwner;
 import com.parking.mongodb.converter.AdministerConverter;
+import com.parking.mongodb.converter.GarageOwnerConverter;
 
 //DAO class for different MongoDB CRUD operations
 //take special note of "id" String to ObjectId conversion and vice versa
@@ -22,7 +24,7 @@ public class MongoDBAdministerDAO {
 	
 //	@SuppressWarnings("deprecation")
 	public MongoDBAdministerDAO(MongoClient mongo) {
-		mongo = new MongoClient("localhost", 27017);
+		//mongo = new MongoClient("localhost", 27017);
 		DB db = mongo.getDB("parking");
 		this.col = db.getCollection("administer");
 	}
@@ -34,10 +36,36 @@ public class MongoDBAdministerDAO {
 	}
 	
 	
-	public boolean findAdminister(String email, String password) {
+	public Administer findAdminister(String email, String password) {
 		DBObject query = new BasicDBObject("adminEmail", email).append("adminPassword", password);
 		
-		return this.col.findOne(query) !=null;
+		if(this.col.findOne(query) !=null) {
+			DBObject data = this.col.findOne(query);
+			return AdministerConverter.toAdminister(data);
+		}else {
+		return null;}
+	}
+	
+	public Administer uniqueEmail(String email) {		
+		DBObject query = new BasicDBObject("adminEmail", email);
+		if(this.col.findOne(query) !=null) {
+			DBObject data= this.col.findOne(query);
+			return AdministerConverter.toAdminister(data);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public Administer uniqueName(String name) {		
+		DBObject query = new BasicDBObject("adminName", name);
+		if(this.col.findOne(query) !=null) {
+			DBObject data= this.col.findOne(query);
+			return AdministerConverter.toAdminister(data);
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public void updateAdminister(Administer c) {

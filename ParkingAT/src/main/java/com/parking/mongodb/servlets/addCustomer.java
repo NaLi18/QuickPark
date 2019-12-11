@@ -11,34 +11,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mongodb.MongoClient;
 import com.parking.entity.Customer;
+import com.parking.mongodb.dao.MongoDBAdministerDAO;
 import com.parking.mongodb.dao.MongoDBCustomerDAO;
+import com.parking.mongodb.dao.MongoDBGarageOwnerDAO;
 
 
 @WebServlet("/addCustomer")
 public class addCustomer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+   
     public addCustomer() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String DriverLicenceId = request.getParameter("DriverLicenceId");
 		String DriverLicenceId1 = request.getParameter("DriverLicenceId1");
 		String Name = request.getParameter("name");
@@ -46,25 +37,21 @@ public class addCustomer extends HttpServlet {
 		String Password1 = request.getParameter("password1");
 		String phone = request.getParameter("phone");
 		String email = request.getParameter("email");
+
 		
-//		
-//		System.out.println("name:"+Name);
-//		System.out.println("DriverLicenceId:"+DriverLicenceId);
-//		System.out.println("DriverLicenceId1:"+DriverLicenceId1);
-//		System.out.println("Password:"+Password);
-//		System.out.println("Password1:"+Password1);
-//		System.out.println("phone:"+phone);
-//		System.out.println("email:"+email);
-		
-		if((Password.compareTo(Password1) !=0) || (DriverLicenceId.compareTo(DriverLicenceId1)!=0) ){
+		if(Password.compareTo(Password1) !=0){
 					
 			System.out.println("fail");
-			request.setAttribute("error", "Mandatory Parameters Missing");
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/customerReg.html");
-			rd.forward(request, response);
+			request.setAttribute("passwordError", "true");       
+			request.getRequestDispatcher("/customerReg.jsp").forward(request, response);
 			
-		} else {
-			
+		} else if (DriverLicenceId.compareTo(DriverLicenceId1)!=0) {
+			request.setAttribute("DLIDError", "true");       
+			request.getRequestDispatcher("/customerReg.jsp").forward(request, response);
+				
+			}else {
+			request.setAttribute("passwordError", "false"); 
+			request.setAttribute("DLIDError", "false"); 
 			Customer c = new Customer();
 			c.setDriverLicenceId(DriverLicenceId);
 			c.setName(Name);
@@ -75,12 +62,28 @@ public class addCustomer extends HttpServlet {
 					.getAttribute("MONGO_CLIENT");
 			
 			MongoDBCustomerDAO CustomerDAO = new MongoDBCustomerDAO(mongo);
-			CustomerDAO.createCustomer(c);
+			MongoDBGarageOwnerDAO GarageOwnerDAO = new MongoDBGarageOwnerDAO(mongo);
+			MongoDBAdministerDAO AdministerDAO = new MongoDBAdministerDAO(mongo);
 			
-			System.out.println("Success");
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/customerlogin.html");
-			rd.forward(request, response);
-					
+			if(CustomerDAO.uniqueName(Name) !=null || GarageOwnerDAO.uniqueName(Name) != null || AdministerDAO.uniqueName(Name) != null) {
+				
+				request.setAttribute("NameDup", "true");       
+				request.getRequestDispatcher("/customerReg.jsp").forward(request, response);
+				
+			} else if (CustomerDAO.uniqueEmail(email) !=null || GarageOwnerDAO.uniqueEmail(email) != null || AdministerDAO.uniqueEmail(email) != null){
+				
+				request.setAttribute("EmailDup", "true");       
+				request.getRequestDispatcher("/customerReg.jsp").forward(request, response);
+				
+			} else {
+				request.setAttribute("EmailDup", "false"); 
+				request.setAttribute("NameDup", "false"); 
+				CustomerDAO.createCustomer(c);
+				System.out.println("Success");
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/customerlogin.jsp");
+				rd.forward(request, response);
+			
+			}		
 		}
 	}
 

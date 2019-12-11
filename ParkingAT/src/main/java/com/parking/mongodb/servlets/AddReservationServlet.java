@@ -85,7 +85,7 @@ public class AddReservationServlet extends HttpServlet {
 			}
 			r.setSpots(Integer.toString(randomInt1));
 			ReservationDAO.createReservation(r);
-			System.out.println("Reservation Added Successfully with id");
+			//System.out.println("Reservation Added Successfully with id");
 			request.setAttribute("success", "Reservation added successfully");
 			//List<Reservation> reservations = ReservationDAO.readAllReservation();
 			//request.setAttribute("reservations", reservations);

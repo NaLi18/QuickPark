@@ -6,8 +6,11 @@
     margin-left: 0;
 }
 .cover{
-    width:1400;
+    width:130%;
     height:300;
+}
+.table {
+border: red solid 1px !important;
 }
 .profilepic{
     position: relative;  
@@ -15,16 +18,21 @@
     width:180px;
     height: 180px;
 }
-.btn-position{
-    position: relative;
-    top:-45px;
-    margin-left: 50px;
-}
+
 .profile-panel{
     position: relative;
-    top:-140px;
-    margin-left: 280px;
+    top:-20;
+    margin-left: 290px;
+}
+.edit-profile{
+    position: relative;
+    top:-45px;
+    margin-left:32;
 }
 .nav-item{
     width:40%;
+}
+.signout{
+    position: relative;
+    margin-left:1160;
 }

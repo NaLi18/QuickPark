@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.mongodb.MongoClient;
 import com.parking.entity.Customer;
 import com.parking.entity.GarageOwner;
+import com.parking.mongodb.dao.MongoDBAdministerDAO;
 import com.parking.mongodb.dao.MongoDBCustomerDAO;
 import com.parking.mongodb.dao.MongoDBGarageOwnerDAO;
 
@@ -21,28 +22,16 @@ import com.parking.mongodb.dao.MongoDBGarageOwnerDAO;
 @WebServlet("/addOwner")
 public class addOwner extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+    
     public addOwner() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		String Name = request.getParameter("name");
 		String Password = request.getParameter("password");
 		String Password1 = request.getParameter("password1");
@@ -52,14 +41,11 @@ public class addOwner extends HttpServlet {
 		if((Password.compareTo(Password1) !=0)){
 			
 			System.out.println("fail");
-			request.setAttribute("error", "Mandatory Parameters Missing");
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/garagereg.html");
-			rd.forward(request, response);
-			
+			request.setAttribute("passwordError", "true");       
+			request.getRequestDispatcher("/garagereg.jsp").forward(request, response);
 		} else {
-			
 			GarageOwner o = new GarageOwner();
-			
+			request.setAttribute("passwordError", "false"); 
 			o.setName(Name);
 			o.setPassword(Password);
 			o.setPhone(phone);
@@ -67,12 +53,33 @@ public class addOwner extends HttpServlet {
 			MongoClient mongo = (MongoClient) request.getServletContext()
 					.getAttribute("MONGO_CLIENT");
 			
+			MongoDBCustomerDAO CustomerDAO = new MongoDBCustomerDAO(mongo);
 			MongoDBGarageOwnerDAO GarageOwnerDAO = new MongoDBGarageOwnerDAO(mongo);
-			GarageOwnerDAO.createGarageOwner(o);
+			MongoDBAdministerDAO AdministerDAO = new MongoDBAdministerDAO(mongo);
 			
-			System.out.println("Success");
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/garagelogin.html");
-			rd.forward(request, response);
+			
+			if(CustomerDAO.uniqueName(Name) !=null || GarageOwnerDAO.uniqueName(Name) != null || AdministerDAO.uniqueName(Name) != null) {
+				
+				request.setAttribute("NameDup", "true");       
+				request.getRequestDispatcher("/garagereg.jsp").forward(request, response);
+				
+			} else if (CustomerDAO.uniqueEmail(email) !=null || GarageOwnerDAO.uniqueEmail(email) != null || AdministerDAO.uniqueEmail(email) != null){
+				
+				request.setAttribute("EmailDup", "true");       
+				request.getRequestDispatcher("/garagereg.jsp").forward(request, response);
+				
+				
+			} else {
+				
+				request.setAttribute("EmailDup", "false"); 
+				request.setAttribute("NameDup", "false"); 
+				
+				GarageOwnerDAO.createGarageOwner(o);
+				System.out.println("Success");
+				RequestDispatcher rd = getServletContext().getRequestDispatcher("/garagelogin.jsp");
+				rd.forward(request, response);
+			
+			}		
 					
 		}
 	}

@@ -1,6 +1,7 @@
 package com.parking.mongodb.servlets;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -33,37 +34,11 @@ public class customerLogin extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		HttpSession session=request.getSession();
+		session.invalidate();
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/homepage.jsp");
+		rd.forward(request, response);
 		
-		String email = request.getParameter("email");
-		String Password = request.getParameter("password");
-		
-		System.out.println("email:"+email);
-		System.out.println("Password:"+Password);
-		
-		MongoClient mongo = (MongoClient) request.getServletContext()
-				.getAttribute("MONGO_CLIENT");
-		
-		MongoDBCustomerDAO CustomerDAO = new MongoDBCustomerDAO(mongo);
-		CustomerDAO.findCustomer(email,Password);
-		
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		if(CustomerDAO.findCustomer(email,Password)== null) {
-			
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/customerlogin.html");
-			rd.forward(request, response);
-		}else {
-			HttpSession session = request.getSession();
-			Customer customer = CustomerDAO.findCustomer(email, Password);
-			//session.setAttribute("name", customer.getName());
-			session.setAttribute("customer", customer);
-			//session.setAttribute("email", customer.getEmail());
-			session.setAttribute("id", customer.getDriverLicenceId());
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/homepage.jsp");
-			rd.forward(request, response);}
-			 //RequestDispatcher rs = request.getRequestDispatcher("welcome");
-	         //rs.forward(request, response);
-	         //}
 	}
 
 	/**
@@ -71,7 +46,29 @@ public class customerLogin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		String email = request.getParameter("email");
+		String Password = request.getParameter("password");
+		
+		//System.out.println("email:"+email);
+		//System.out.println("Password:"+Password);
+		
+		MongoClient mongo = (MongoClient) request.getServletContext()
+				.getAttribute("MONGO_CLIENT");
+		
+		MongoDBCustomerDAO CustomerDAO = new MongoDBCustomerDAO(mongo);
+		CustomerDAO.findCustomer(email,Password);
+		if(CustomerDAO.findCustomer(email,Password)== null) {
+			HttpSession session = request.getSession();
+			request.setAttribute("loginError", "true");       
+			request.getRequestDispatcher("/customerlogin.jsp").forward(request, response);
+		}else {
+			HttpSession session = request.getSession();
+			Customer customer = CustomerDAO.findCustomer(email, Password);
+			session.setAttribute("customer", customer);
+			request.setAttribute("loginError", "false"); 
+			session.setAttribute("id", customer.getDriverLicenceId());
+			RequestDispatcher rd = getServletContext().getRequestDispatcher("/homepage.jsp");
+			rd.forward(request, response);}
 	}
 
 }

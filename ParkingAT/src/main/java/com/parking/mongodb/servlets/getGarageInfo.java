@@ -38,7 +38,7 @@ public class getGarageInfo extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String add = (String)request.getParameter("addressInput");
-		System.out.println(add);
+		//System.out.println(add);
 		MongoClient mongo = (MongoClient) request.getServletContext()
 				.getAttribute("MONGO_CLIENT");
 		
@@ -54,10 +54,8 @@ public class getGarageInfo extends HttpServlet {
 			HttpSession session = request.getSession();
 			List<Garage> garages = GarageDAO.readAllGarage(add);
 			session.setAttribute("garages", garages);
-			for(Garage g:garages) {
-				System.out.println(g.getName());
-			}
-			System.out.println("get the information sucessful");
+			
+			System.out.println("get the garage information sucessful");
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/homepage.jsp");
 			rd.forward(request, response);}
 	}

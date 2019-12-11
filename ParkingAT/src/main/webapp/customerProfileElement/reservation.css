@@ -29,3 +29,26 @@ button{
 button:first-of-type{
     background-color: coral;
 }
+
+/* Set a style for the send/cancel button */
+.form-container .btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  width: 80px;
+  height:40px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+  background-color: red;
+  border-radius: 4px;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover {
+  opacity: 1;
+  }

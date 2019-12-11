@@ -48,17 +48,19 @@
             <input type="text" id="inputphone" name="phone" class="form-control" value="${customer.phone}" required >
     </div>
     <div class="form-label-group">
-            <label for="inputpassward">Passward</label>
-            <input type="password" id="inputpassward" name="password" class="form-control" placeholder="passward" required >
+            <label for="inputpassward">Password</label>
+            <input type="password" id="inputpassward" name="password" class="form-control" placeholder="password" required >
     </div>
     <div class="form-label-group">
-            <label for="comfirmpassward">Comfirm Passward</label>
-            <input type="passward" id="inputcomfirmpassward" name="password1" class="form-control" placeholder="comfirm passward" required>
+            <label for="comfirmpassword">Confirm Password</label>
+            <input type="password" id="inputcomfrimpassword" name="password1" class="form-control" placeholder="comfirm password" required>
     </div>
-    <div class="form-label-group">
+    <%-- 
+    	<div class="form-label-group">
     	<label for="uploadProfile">Profile Update</label><br>
     	Select a file: <input type="file" name="myFile"><br><br>
-    </div>
+    	</div>--%>
+    <br>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
 	<br>
 </form>

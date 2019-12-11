@@ -31,8 +31,6 @@ public class MongoDBCustomerDAO {
 	
 	public MongoDBCustomerDAO(MongoClient mongo) {
 		
-		
-		mongo = new MongoClient("localhost", 27017);
 		DB db = mongo.getDB("parking");
 		this.col = db.getCollection("customer");
 	}
@@ -42,6 +40,7 @@ public class MongoDBCustomerDAO {
 		this.col.insert(doc);
 		return c;
 	}
+	
 	
 	
 	public Customer findCustomer(String email, String password) {		
@@ -55,6 +54,27 @@ public class MongoDBCustomerDAO {
 		}
 	}
 	
+	public Customer uniqueEmail(String email) {		
+		DBObject query = new BasicDBObject("email", email);
+		if(this.col.findOne(query) !=null) {
+			DBObject data= this.col.findOne(query);
+			return CustomerConverter.toCustomer(data);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public Customer uniqueName(String name) {		
+		DBObject query = new BasicDBObject("name", name);
+		if(this.col.findOne(query) !=null) {
+			DBObject data= this.col.findOne(query);
+			return CustomerConverter.toCustomer(data);
+		}
+		else {
+			return null;
+		}
+	}
 	
 	public Customer updateCustomer(Customer c) {
 		DBObject query = new BasicDBObject("email", c.getEmail());

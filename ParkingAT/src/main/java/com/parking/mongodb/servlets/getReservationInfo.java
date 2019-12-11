@@ -55,7 +55,7 @@ public class getReservationInfo extends HttpServlet {
 			rd.forward(request, response);
 		}else {
 			HttpSession session = request.getSession();
-			System.out.println("hello");
+			//System.out.println("hello");
 			List<Reservation> reservations = ReservationDAO.readAllReservation(r);
 			session.setAttribute("reservations", reservations);
 			System.out.println("get the reservation information sucessful ");

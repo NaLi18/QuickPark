@@ -39,7 +39,7 @@ public class garageLogin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session=request.getSession();
 		session.invalidate();
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/garagelogin.html");
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/homepage.jsp");
 		rd.forward(request, response);
 
 	}
@@ -52,9 +52,6 @@ public class garageLogin extends HttpServlet {
 				String email = request.getParameter("emailaddress");
 				String Password = request.getParameter("Ipassword");
 				
-				System.out.println("email:"+email);
-				System.out.println("Password:"+Password);
-				
 				MongoClient mongo = (MongoClient) request.getServletContext()
 						.getAttribute("MONGO_CLIENT");
 				
@@ -64,8 +61,9 @@ public class garageLogin extends HttpServlet {
 				//response.getWriter().append("Served at: ").append(request.getContextPath());
 				if(GarageOwnerDAO.findGarageOwner(email,Password)==null) {
 					System.out.println("fail");
-					RequestDispatcher rd = getServletContext().getRequestDispatcher("/garagelogin.html");
-					rd.forward(request, response);
+					request.setAttribute("loginError", "true");         
+					request.getRequestDispatcher("/garagelogin.jsp").forward(request, response);
+					
 				}else {
 					HttpSession session=request.getSession();	
 					GarageOwner garageowner = GarageOwnerDAO.findGarageOwner(email,Password);
@@ -73,6 +71,7 @@ public class garageLogin extends HttpServlet {
 					Garage garage = garageDAO.findGrage( garageowner.getName());
 					System.out.println(garageowner.getName());
 					session.setAttribute("garage",garage);
+					request.setAttribute("loginError", "false"); 
 					RequestDispatcher rd = getServletContext().getRequestDispatcher("/garageProfile.jsp");
 					rd.forward(request, response);
 				}

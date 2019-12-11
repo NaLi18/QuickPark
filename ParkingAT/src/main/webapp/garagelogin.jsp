@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -12,7 +15,7 @@
                             <img src="./img/PGA logo.png"    class="logo">
                             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                                 <div class="navbar-nav">
-                                    <a class="nav-item nav-link active" href="/"><b>Home</b></a>
+                                    <a class="nav-item nav-link active" href="./homepage.jsp"><b>Home</b></a>
                                 </div>
                             </div>
                     </nav>
@@ -22,6 +25,7 @@
                 <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
                     <div class="card card-signin my-5">
                         <div class="card-body cardBorder">
+                        <h5 class="card-title text-center">Garage Owner</h5>
                             <h5 class="card-title text-center">Sign In</h5>
                                 <form class="form-signin" action="garageLogin" method="post">
                                     <div class="form-label-group">
@@ -41,7 +45,7 @@
                                     <br>
                                     <div class="text-center">
                                         <a href="" data-toggle="modal" data-target="#myModal">Forgot Password |</a>
-                                        <a href="./garagereg.html">Not Registered,Sign up</a>
+                                        <a href="./garagereg.jsp">Not Registered,Sign up</a>
                                     </div>
                                 </form>
                         </div>
@@ -85,5 +89,15 @@
                 </div>
                   </div>
                 </div> 
+        <%
+		 String errorInfo = (String)request.getAttribute("loginError");      
+		 if(errorInfo == "true") {
+		%>
+		 <script type="text/javascript" language="javascript">
+		 alert("wrong email or password");              	                   
+		 </script> 
+		<%
+		 }
+		%>
     </body>
 </html>

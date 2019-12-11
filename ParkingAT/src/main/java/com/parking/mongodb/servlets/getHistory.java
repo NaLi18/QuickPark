@@ -50,9 +50,7 @@ public class getHistory extends HttpServlet {
 			System.out.println("hello");
 			List<Reservation> history = ReservationDAO.readAllHistory(r);
 			session.setAttribute("historys",history);
-			for(Reservation res: history) {
-				System.out.println(res.getReservationID());
-			}
+			
 			System.out.println("get the reservation information sucessful ");
 			RequestDispatcher rd = getServletContext().getRequestDispatcher("/customerProfileElement/history.jsp");
 			rd.forward(request, response);}

@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -52,13 +55,38 @@
                          </div>
                         <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit"><b>Register</b></button>
                         <br>
-                        <a class="d-block text-center mt-2 small" href="./garagelogin.html"><b>Sign In</b></a>
+                        <a class="d-block text-center mt-2 small" href="./garagelogin.jsp"><b>Sign In</b></a>
                       </form>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+        <%
+		 String passwordError = (String)request.getAttribute("passwordError");  
+         String EmailDup = (String)request.getAttribute("EmailDup");    
+         String NameDup = (String)request.getAttribute("NameDup");   
+		 if(passwordError == "true") {
+		%>
+		 <script type="text/javascript" language="javascript">
+		 alert("passwords don't match");              	                   
+		 </script> 
+		<%
+		 }if (EmailDup == "true") {
+				%>
+				<script type="text/javascript" language="javascript">
+				 alert("This email has registered");              	                   
+				 </script> 
+				<%
+				 }
+				 if (NameDup == "true") {
+				%>
+				<script type="text/javascript" language="javascript">
+				 alert("This name has been used");              	                   
+				 </script> 
+				<%
+				 }
+				%>
           </body>
     </body>
 </html>

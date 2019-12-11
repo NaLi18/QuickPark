@@ -23,7 +23,7 @@
                     <img src="./img/PGA logo.png"    class="logo">
                     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                         <div class="navbar-nav">
-                            <a class="nav-item nav-link active" href="/"><b>Home</b></a>
+                            <a class="nav-item nav-link active" href="#"><b>Home</b></a>
                         </div>
                     </div>
                     <%
@@ -36,9 +36,9 @@
                               Login / Signup 
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                              <a class="dropdown-item" href="./Admin.html">Admin</a>
-                              <a class="dropdown-item" href="./customerlogin.html">Customer</a>
-                              <a class="dropdown-item" href="./garagelogin.html">Garage Owner</a>
+                              <a class="dropdown-item" href="./Admin.jsp">Admin</a>
+                              <a class="dropdown-item" href="./customerlogin.jsp">Customer</a>
+                              <a class="dropdown-item" href="./garagelogin.jsp">Garage Owner</a>
                             </div>
                           </div>
                   <% 
@@ -46,28 +46,21 @@
 	
 		%>
 					<a href="customerProfile.jsp" style="border-radius: 5px; padding:5px; background-color: #3F88C5;color:#ffffff; margin-right:10px">My Account</a>
-					<a href="customerlogin.html" style= "border-radius: 5px; padding:5px; background-color: #3F88C5;color:#ffffff;">Log out</a>
+					<a href="customerLogin" style= "border-radius: 5px; padding:5px; background-color: #3F88C5;color:#ffffff;">Log out</a>
 		
 		<% }%>
             </nav>
        </div>
-    	<form id="garageform"action="getGarage" method="post">
-         <label for="raddressInput">Search location:</label>
+    	<form id="garageform"action="getGarage" method="post" class="searchForm">
+         <label for="raddressInput">Search City:</label>
          <input type="text" id="addressInput" name="addressInput" size="15"/>
          <label for="SartDate">From:</label>
-         <input type="date" id="start" name="parking-start" value="Today" >
-         <input id="setStartime" type="time" step="1">
+         <input type="date" onchange="checkDate()" id="start" name="parking-start" />
+         <input id="setStartime" type="time">
          <label for="endDate">To:</label>
-         <input type="date" id="end" name="parking-end" value="Today" >
-         <input id="setEndtime" type="time" step="1">
-	     <label for="radiusSelect">Radius:</label>
-    	 <select id="radiusSelect" label="Radius" style="width:100px">
-          <option value="50" selected>50 kms</option>
-          <option value="30">30 kms</option>
-          <option value="20">20 kms</option>
-          <option value="10">10 kms</option>
-        </select>
-        <input class="buttonS" type="submit" id="searchButton" style="background-color: #27D154;color:white;margin-right:0%;width: 100px;" value="Search"/>
+         <input type="date" id="end" onchange="datevalid()" name="parking-end" />
+         <input id="setEndtime" type="time" >
+        <input class="buttonS" type="submit"  id="searchButton" style="background-color: #27D154;color:white;width: 100px; border-radius:5px;" value="Search"/>
     </form>
     <br>
     <div class="sample" style="width:30">
@@ -76,20 +69,23 @@
     			<div class="row" style="background: #EAFCFE; padding:5px; border-bottom: 2px solid white">
     				<div class="ListGarage" >
     				<input  class="messageCheckbox" type="checkbox" name="garg" value="${garage.name}">
-    				<p id="grs"><b >${garage.name}</b><br>
-    				<a class="locs">${garage.location}</a><br>
-    				<a style="color:blue">${garage.rate} out of 5</a>
+    				<p id="grs")><b >${garage.name}</b><br>
+    				<a>${garage.location}</a><br>
+    				<a style="color:red">${garage.rate} out of 5</a><br>
+    				<a style="color:blue">Capacity: ${garage.capacity}</a>
+    				<a class="lats" style="visibility: hidden">${garage.latitude}</a>
+    				<a class="lngs" style="visibility: hidden">${garage.longitude}</a>
     				</div>
     				<%
     					Customer obj2= (Customer)session.getAttribute("customer");
 						if(null!=obj2){
 							//response.sendRedirect("/admin/login.html");
 						%>
-    					<button onclick="submitform()" style="margin-left:auto; magrin-top:20;height:65%; background-color: #27D154;color:white;width:100px; border-radius:4px" >Order</button>
+    					<button onclick="submitform()" style="margin-left:auto; magrin-top:35px;height:65%; background-color: #27D154;color:white;width:100px; border-radius:4px" >Order</button>
     				<% }
     				else{
     					%>
-    					<button onclick="window.location.href = './customerlogin.html'" style="margin-left:auto; magrin-top:20;height:65%; background-color: #27D154;color:white;width:100px; border-radius:4px" >Order</button>
+    					<button onclick="window.location.href = './customerlogin.jsp'" style="margin-left:auto; magrin-top:35px;height:65%; background-color: #27D154;color:white;width:100px; border-radius:4px" >Order</button>
     				<% }%>
     			</div>
 				</c:forEach>
@@ -128,12 +124,44 @@
 			document.getElementById("myForm").submit();
 		}
 	</script>
- 
+ 	<script src="app.js"></script>
+    <script>
+    	function checkDate() {
+    	   var selectedText = document.getElementById('start').value;
+    	   var selectedDate = new Date(selectedText);
+    	   var now = new Date();
+    	   if(selectedDate.getFullYear() >= now.getFullYear() || selectedDate.getMonth() >= now.getMonth()){
+    		   if((selectedDate.getDate()+1) < now.getDate()){
+    	    		alert("Date must be in the future");
+    	    		location.reload();
+    	    		}
+    	   }
+    	 }
+    	function datevalid() {
+     	   var selectedText1 = document.getElementById('end').value;
+     	   var selectedDate1 = new Date(selectedText1);
+     	   var now = new Date();
+     	  	if(selectedDate1.getFullYear() >= now.getFullYear() || selectedDate1.getMonth() >= now.getMonth()){
+     		  if((selectedDate1.getDate()+1) < now.getDate()){
+   	    			alert("Date must be in the future");
+   	    			location.reload();
+   	    		}
+     	   	else if(new Date(document.getElementById('start').value)!=null){
+     		  	var selectedText = document.getElementById('start').value;
+       	   		var selectedDate = new Date(selectedText);
+       	   		if(selectedDate > selectedDate1){
+       	   			alert("Check out date need After the check in");
+     	    		location.reload();
+       	   			}
+     	   		}
+     	  	}
+     	 }
+    </script>
     <script>
       var map;
       var markers = [];
       var infoWindow;
-      var locationSelect;
+      //var locationSelect;
 
         function initMap() {
         	var albany = {lat: 42.652580, lng: -73.756233};
@@ -143,61 +171,54 @@
             mapTypeId: 'roadmap',
             mapTypeControlOptions: {style: google.maps.MapTypeControlStyle.DROPDOWN_MENU}
           });
-          
+         /*
           var marker = new google.maps.Marker({
         	  position:albany,
         	  map:map
           })
-          
-          infoWindow = new google.maps.InfoWindow();
-          
-          searchButton = document.getElementById("searchButton").onclick = searchLocations;
-			
-          locationSelect = document.getElementById("locationSelect");
-          locationSelect.onchange = function() {
-            var markerNum = locationSelect.options[locationSelect.selectedIndex].value;
-            if (markerNum != "none"){
-              google.maps.event.trigger(markers[markerNum], 'click');
-            }
-          };
+          */
+          //infoWindow = new google.maps.InfoWindow();
+          var input = document.getElementsByClassName('lats');
+          if(String(input[0].textContent) === undefined){
+        	  alert("undefine")
+          }
+          else{
+          	searchLocations();}
+          //searchButton = document.getElementById("searchButton").onclick = searchLocations)
         }
 
        function searchLocations() {
-    	 var names = []
-         var inputElements = document.getElementsByClassName('locs');
-			for(var i=0; inputElements[i]; ++i){
-					if(inputElement[i]==null){
-						break;
-					}
-					else{
-			           names.push(inputElements[i].value);
-					}
-			} 
-         var geocoder = new google.maps.Geocoder();
-         for (i = 0; i <names.length; i++) {
-         geocoder.geocode({address: name[i]}, function(results, status) {
-           if (status == google.maps.GeocoderStatus.OK) {
-        	   var latlng = results[-1][0]
-        	   createMarker(latlng);
-           } 
-         	});
-         }
+    	 var lngs = [];
+    	 var lats =[];
+         var inputElements = document.getElementsByClassName('lats');
+         var inputElements2 = document.getElementsByClassName('lngs');
+         var bounds = new google.maps.LatLngBounds();
+         //alert(inputElements);
+         //clearLocations();
+    	 if(inputElements!=null){
+    		 for(var i=0; inputElements[i];++i){
+    			 lats.push(String(inputElements[i].textContent));
+    			 lngs.push(String(inputElements2[i].textContent))
+    		 }
+    		 for (i = 0; i <lats.length; i++) {
+            	 var latlng={lat:parseFloat(lats[i]), lng:parseFloat(lngs[i])};
+            	 createMarker(latlng);
+            	 bounds.extend(latlng);
+             }
+    		 map.fitBounds(bounds);
+    		 //google.maps.event.trigger(markers[0], 'click');
+    	 }
+        
        }
-
+		/*
        function clearLocations() {
          infoWindow.close();
          for (var i = 0; i < markers.length; i++) {
            markers[i].setMap(null);
          }
          markers.length = 0;
-
-         locationSelect.innerHTML = "";
-         var option = document.createElement("option");
-         option.value = "none";
-         option.innerHTML = "See all results:";
-         locationSelect.appendChild(option);
        }
-       
+      */
 		/*
        function searchLocationsNear(center) {
          clearLocations();
@@ -235,17 +256,17 @@
             map: map,
             position: latlng
           });
+          
           google.maps.event.addListener(marker, 'click', function() {
-            infoWindow.setContent(html);
-            infoWindow.open(map, marker);
-          });
+              //infoWindow.setContent(html);
+              infoWindow.open(map, marker);
+            });
           markers.push(marker);
         }
 
       
   </script>
-  <script src="app.js"></script>
-    <script async defer
+  <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCFCDqcWZryyPAnPa8h_cJVAWemz-kOhYo&callback=initMap">
     </script>
   </body>

@@ -51,3 +51,8 @@
     .sample .garages{
     	margin: auto;
     }
+    .searchForm input{
+    	float:left;
+    	border-radius:5px;
+    	margin-left:10;
+    }

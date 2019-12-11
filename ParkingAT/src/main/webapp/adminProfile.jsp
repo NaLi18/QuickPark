@@ -17,7 +17,7 @@
         <img src="./img/PGA logo.png" class="logo">
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="/"><b>Home</b></a>
+                <a class="nav-item nav-link active" href="./homepage.jsp"><b>Home</b></a>
                 <a type="button" href="administerLogin" class="btn btn-danger signout ">Signout</a>
             </div>
         </div>
@@ -26,7 +26,7 @@
     <div class="container margin">
         <div class="row ">
             <div class="col-lg">
-                <img src="./img/admincover.png" class="cover">
+                <img src="./img/cover.png" class="cover">
             </div> 
         </div>
         <div class="container emp-profile">

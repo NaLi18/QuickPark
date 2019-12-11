@@ -31,8 +31,6 @@ public class MongoDBGarageDAO {
 	
 	public MongoDBGarageDAO(MongoClient mongo) {
 		
-		
-		mongo = new MongoClient("localhost", 27017);
 		DB db = mongo.getDB("parking");
 		this.col = db.getCollection("garage");
 	}

@@ -52,22 +52,24 @@
 </head>
 
 <body>
-	<div class="Reservations">
+	<div class="Reservations" id="someReservations">
 	<c:if test="${not empty reservations}">
 		<table class="Ordertable">
 			<tbody>
 				<tr>
+					<th>Select</th>
 					<th>Reservation ID</th>
 					<th>Garage Name</th>
-					<th>Check In</th>
-					<th>Check Out</th>
+					<th>Arrive Time</th>
+					<th>Leave Time</th>
 					<th>Unit Price</th>
 					<th>Spot</th>
 					<th>Paid</th>
-					
+					<th>Cancel</th>
 				</tr>
 				<c:forEach items="${reservations}" var="res">
 					<tr>
+						<td><input  class="messageCheckbox" type="checkbox" name="garg" value="${res.reservationID}"></td>
 						<td><c:out value="${res.reservationID}"></c:out></td>
 						<td><c:out value="${res.garageID}"></c:out></td>
 						<td><c:out value="${res.checkInDate} ${res.checkInTime}"></c:out></td>
@@ -75,6 +77,7 @@
 						<td><c:out value="$${res.price}"></c:out></td>
 						<td><c:out value="${res.spots}"></c:out></td>
 						<td><c:out value="${res.paid}"></c:out></td>
+						<td><a href="cancelReservation?id=${res.reservationID}" style="color:blue;">cancel</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -84,8 +87,76 @@
         <a href="./homepage.jsp" target="_top" style="color:black;float: right;background-color: aquamarine;width: 150px;height:30px;border-radius: 5px;border: 1px;margin-right: 40px; text-align: center;text-decoration: none; padding:0">New Reservation</a>
     <br>
     <br>
-         <a href="" target="" style=" color:white; float: right;background-color: coral;width: 150px;height:30px;border-radius: 5px;border: 1px;margin-right: 40px; text-align: center;text-decoration: none; padding:0">Edit Reservation</a>
+         <a href="#"  Onclick="openForm()" style="color:white; float: right;background-color: coral;width: 150px;height:30px;border-radius: 5px;border: 1px;margin-right: 40px; text-align: center;text-decoration: none; padding:0">Edit Reservation</a>
     <br>
 	</div>
+	 <div class="form-popup" id="myForm" style="display: none; padding:25px; border-radius: 10px; padding-top:0px; width:80%; margin:auto; background-color:E3DFDF;">
+ 			<form action="updateReservation" class="form-container" method="post" style="padding:10px; ">
+ 				<label>Reservation ID: </label>
+    			<input id="ID" name="reservationID" value=""/><br>
+    			<label for="SartDate">From:</label>
+         		<input type="date" onchange="checkDate()" id="start" name="parking-start" />
+         		<input id="setStartime" type="time" name="startTime"style="margin-right:10px"/><br>
+         		<label for="endDate">To:</label>
+         		<input type="date" id="end" onchange="datevalid()" name="parking-end" />
+         		<input id="setEndtime" type="time" style="margin-right:10px" name="endtime"/><br>
+    			<br>
+    			<button type="submit" class="btn">update</button>
+    			<button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+  			</form>	 
+		</div>
+	<script>
+			function openForm() {
+		  		document.getElementById("myForm").style.display = "block";
+		  		document.getElementById("someReservations").style.display = "none";
+		  		
+		  		var checkedValue = null; 
+				var inputElements = document.getElementsByClassName('messageCheckbox');
+				for(var i=0; inputElements[i]; ++i){
+				      if(inputElements[i].checked){
+				           checkedValue = inputElements[i].value;
+				           break;
+				      }
+				}
+				document.getElementById("ID").value=checkedValue;
+				//document.getElementById("cus").value=cus.getName();
+			}
+
+			function closeForm() {
+  				document.getElementById("myForm").style.display = "none";
+  				document.getElementById("someReservations").style.display = "block";
+			}
+			function checkDate() {
+		    	   var selectedText = document.getElementById('start').value;
+		    	   var selectedDate = new Date(selectedText);
+		    	   var now = new Date();
+		    	   if(selectedDate.getFullYear() >= now.getFullYear() || selectedDate.getMonth() >= now.getMonth()){
+		    		   if((selectedDate.getDate()+1) < now.getDate()){
+		    	    		alert("Date must be in the future");
+		    	    		location.reload();
+		    	    		}
+		    	   }
+		    	 }
+		    	function datevalid() {
+		     	   var selectedText1 = document.getElementById('end').value;
+		     	   var selectedDate1 = new Date(selectedText1);
+		     	   var now = new Date();
+		     	  	if(selectedDate1.getFullYear() >= now.getFullYear() || selectedDate1.getMonth() >= now.getMonth()){
+		     		  if((selectedDate1.getDate()+1) < now.getDate()){
+		   	    			alert("Date must be in the future");
+		   	    			location.reload();
+		   	    		}
+		     	   	else if(new Date(document.getElementById('start').value)!=null){
+		     		  	var selectedText = document.getElementById('start').value;
+		       	   		var selectedDate = new Date(selectedText);
+		       	   		if(selectedDate > selectedDate1){
+		       	   			alert("Check out date need After the check in");
+		     	    		location.reload();
+		       	   			}
+		     	   		}
+		     	  	}
+		     	 }
+	</script>
+	
 </body>
 </html>

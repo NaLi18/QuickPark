@@ -41,7 +41,7 @@ public class administerLogin extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session=request.getSession();
 		session.invalidate();
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/Admin.html");
+		RequestDispatcher rd = getServletContext().getRequestDispatcher("/homepage.jsp");
 		rd.forward(request, response);
 		
 	}
@@ -54,9 +54,6 @@ public class administerLogin extends HttpServlet {
 		String email = request.getParameter("aEmail");
 		String Password = request.getParameter("aPassword");
 		
-		System.out.println("email:"+email);
-		System.out.println("Password:"+Password);
-		
 		MongoClient mongo = (MongoClient) request.getServletContext()
 				.getAttribute("MONGO_CLIENT");
 		
@@ -67,8 +64,8 @@ public class administerLogin extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		if(AdministerDAO.findAdminister(email,Password)== null) {
 			System.out.println("fail");
-			RequestDispatcher rd = getServletContext().getRequestDispatcher("/Admin.html");
-			rd.forward(request, response);
+			request.setAttribute("loginError", "wrong email or password");       
+			request.getRequestDispatcher("/Admin.jsp").forward(request, response);
 		}else {
 			HttpSession session=request.getSession();	
 			Administer administer = AdministerDAO.findAdminister(email,Password);

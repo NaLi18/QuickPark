@@ -44,9 +44,11 @@ public class MongoDBReservationDAO {
 	}
 	
 	public void updateReservation(Reservation r) {
-		DBObject query = BasicDBObjectBuilder.start()
-				.append("userID", new ObjectId(r.getUserID())).get();
-		this.col.update(query, ReservationConverter.toDBObject(r));
+		BasicDBObject newDocument = new BasicDBObject();
+		newDocument.append("$set", new BasicDBObject().append("checkInTime", r.getCheckInTime()))
+		.append("checkOutTime", r.getCheckOutTime()).append("checkInDate", r.getCheckInDate()).append("checkOutDate", r.getCheckOutDate());
+		DBObject query = (DBObject) BasicDBObjectBuilder.start().append("_id", new ObjectId(r.getReservationID())).get();
+		this.col.update(query,newDocument);
 	}
 
 	public List<Reservation> readAllReservation(Reservation r) {
@@ -72,9 +74,9 @@ public class MongoDBReservationDAO {
 		return data;
 	}
 
-	public void deleteReservation(Reservation r) {
+	public void deleteReservation(String v) {
 		DBObject query = BasicDBObjectBuilder.start()
-				.append("UserID", new ObjectId(r.getUserID())).get();
+				.append("_id", new ObjectId(v)).get();
 		this.col.remove(query);
 	}
 }

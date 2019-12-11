@@ -20,14 +20,14 @@
 		<a href="customerLogin" style= "float:right;border-radius: 5px; padding:5px; width:100px;background-color: #3F88C5;color:#ffffff;margin-right:20px; text-align:center">Log out</a>
     <div class="row ">
         <div class="col-lg">
-            <img src="./img/admincover.png"class="cover" width=95% height=180px >
+            <img src="./img/cover.png"class="cover" width=95% height=180px >
         </div>
     </div>
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-12">
                 <div class="row ">
-                    <div class="col-md-12 col-md-12-sm-12 col-xs-12 ">
-                        <img src="https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png" class="rounded-circle profilepic">
+                    <div class="col-md-10 col-md-10-sm-10 col-xs-10 ">
+                        <img src="./img/DefaultProfile.jpg" class="rounded-circle profilepic" width=30% height=180px>
                     </div>
                 </div>
         </div>

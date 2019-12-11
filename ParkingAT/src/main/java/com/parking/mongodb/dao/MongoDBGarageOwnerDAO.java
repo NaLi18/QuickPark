@@ -12,7 +12,9 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.parking.entity.Customer;
 import com.parking.entity.GarageOwner;
+import com.parking.mongodb.converter.CustomerConverter;
 import com.parking.mongodb.converter.GarageOwnerConverter;
 
 //DAO class for different MongoDB CRUD operations
@@ -23,8 +25,6 @@ public class MongoDBGarageOwnerDAO {
 	
 //	@SuppressWarnings("deprecation")
 	public MongoDBGarageOwnerDAO(MongoClient mongo) {
-//		this.col = mongo.getDB("parking").getCollection("GarageOwner");
-		mongo = new MongoClient("localhost", 27017);
 		DB db = mongo.getDB("parking");
 		this.col = db.getCollection("garageOwner");
 	}
@@ -32,16 +32,41 @@ public class MongoDBGarageOwnerDAO {
 	public GarageOwner createGarageOwner(GarageOwner c) {
 		DBObject doc = GarageOwnerConverter.toDBObject(c);
 		this.col.insert(doc);
-//		ObjectId id = (ObjectId) doc.get("_id");
-//		c.setGarageOwnerID(id.toString());
 		return c;
 	}
 	
 	
-	public boolean findGarageOwner(String email, String password) {
+	public GarageOwner findGarageOwner(String email, String password) {
 		DBObject query = new BasicDBObject("email", email).append("password", password);
+		if(this.col.findOne(query) !=null) {
+			DBObject data = this.col.findOne(query);
+			return GarageOwnerConverter.toGarageOwner(data);
+		}else {
+			return null;
+		}
 		
-		return this.col.findOne(query) !=null;
+	}
+	
+	public GarageOwner uniqueEmail(String email) {		
+		DBObject query = new BasicDBObject("email", email);
+		if(this.col.findOne(query) !=null) {
+			DBObject data= this.col.findOne(query);
+			return GarageOwnerConverter.toGarageOwner(data);
+		}
+		else {
+			return null;
+		}
+	}
+	
+	public GarageOwner uniqueName(String name) {		
+		DBObject query = new BasicDBObject("name", name);
+		if(this.col.findOne(query) !=null) {
+			DBObject data= this.col.findOne(query);
+			return GarageOwnerConverter.toGarageOwner(data);
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public void updateGarageOwner(GarageOwner c) {
